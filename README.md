@@ -9,7 +9,7 @@ Smoke detector which based on video or image can avoid interference of environme
 - opencv
 - TensorFlow
 
-
+## 导入TensorFlow等
 
 
 ```python
@@ -21,25 +21,26 @@ import numpy as np
 # %matplotlib inline
 ```
 
-## Tutorial
+## 定义神经网络函数
 
 
 ```python
-def add_layer(inputs, in_size, out_size, activation_function=None):
+def add_layer(inputs, in_size, out_size, num=0, activation_function=None):
     # add one more layer and return the output of this layer
     # 区别：大框架，定义层 layer，里面有 小部件
+
     with tf.name_scope('layer'):
         # 区别：小部件
         with tf.name_scope('weights'):
-            Weights = tf.Variable(tf.random_normal([in_size, out_size]), name='W')
+            Weights = tf.Variable(tf.random_normal([in_size, out_size]), name='Weights' + str(num))
         with tf.name_scope('biases'):
-            biases = tf.Variable(tf.zeros([1, out_size]) + 0.1, name='b')
+            biases = tf.Variable(tf.zeros([1, out_size]) + 0.1, name='bias' + str(num))
         with tf.name_scope('Wx_plus_b'):
-            Wx_plus_b = tf.add(tf.matmul(inputs, Weights), biases)
+            Wx_plus_b = tf.add(tf.matmul(inputs, Weights), biases, name='We_plus_b' + str(num))
         if activation_function is None:
             outputs = Wx_plus_b
         else:
-            outputs = activation_function(Wx_plus_b, )
+            outputs = activation_function(Wx_plus_b, name='activation_function' + str(num))
         return outputs
 ```
 
@@ -72,20 +73,20 @@ training_label = np.array([[1.0 if i < 400 else 0.0] for i in range(800)])
 
 
 ```python
-xs = tf.placeholder(tf.float32, [None, 256 * 256])
-ys = tf.placeholder(tf.float32, [None, 1])
+xs = tf.placeholder(tf.float32, [None, 256 * 256], name='xs')
+ys = tf.placeholder(tf.float32, [None, 1], name='ys')
 ```
 
 ### 定义隐层和输出层
 
 
 ```python
-layer1 = add_layer(xs, 256 * 256, 1024, activation_function=tf.nn.sigmoid)
+layer1 = add_layer(xs, 256 * 256, 1024, 1, activation_function=tf.nn.sigmoid)
 ```
 
 
 ```python
-prediction = add_layer(layer1, 1024, 1, activation_function=tf.nn.sigmoid)
+prediction = add_layer(layer1, 1024, 1, 2, activation_function=tf.nn.sigmoid)
 ```
 
 ### 定义损失函数
@@ -104,7 +105,7 @@ train_step = tf.train.GradientDescentOptimizer(1).minimize(loss)
 
 
 ```python
-smoke_sess = tf.Session()
+smoke_sess = tf.Session(config=tf.ConfigProto(log_device_placement=True, gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)))
 ```
 
 ### 初始化变量
@@ -118,11 +119,33 @@ smoke_sess.run(tf.global_variables_initializer())
 
 
 ```python
-for i in range(2000):
+for i in range(1000):
     smoke_sess.run(train_step, feed_dict={xs: training_set_nparray, ys: training_label})
-#     if i % 50 == 0:
-#         print(smoke_sess.run(loss))
+    if i % 50 == 0:
+        print(i, smoke_sess.run(loss, feed_dict={xs: training_set_nparray, ys: training_label}))
 ```
+
+    0 0.442887
+    50 0.361918
+    100 0.304387
+    150 0.249828
+    200 0.222163
+    250 0.202497
+    300 0.184905
+    350 0.180239
+    400 0.161046
+    450 0.142362
+    500 0.142484
+    550 0.127693
+    600 0.123639
+    650 0.142562
+    700 0.101554
+    750 0.0958758
+    800 0.0927265
+    850 0.0895231
+    900 0.0874223
+    950 0.0854852
+
 
 ### 在训练集上的结果
 
@@ -149,7 +172,7 @@ print('单隐层神经网络，训练集\n检验率： {0}, 虚警率： {1}'.fo
 ```
 
     单隐层神经网络，训练集
-    检验率： 0.9575, 虚警率： 0.065
+    检验率： 0.935, 虚警率： 0.1
 
 
 ### 在测试集上的结果
@@ -184,7 +207,7 @@ print('单隐层神经网络，测试集\n检验率： {0}, 虚警率： {1}'.fo
 ```
 
     单隐层神经网络，测试集
-    检验率： 0.88, 虚警率： 0.28
+    检验率： 0.85, 虚警率： 0.21
 
 
 ## 提取深度特征结合SVM
@@ -238,7 +261,7 @@ print('深度特征+SVM，训练集\n检验率： {0}, 虚警率： {1}'.format(
 ```
 
     深度特征+SVM，训练集
-    检验率： 0.925, 虚警率： 0.165
+    检验率： 0.9025, 虚警率： 0.1275
 
 
 
@@ -265,4 +288,66 @@ print('深度特征+SVM，测试集\n检验率： {0}, 虚警率： {1}'.format(
 ```
 
     深度特征+SVM，测试集
-    检验率： 0.87, 虚警率： 0.21
+    检验率： 0.9, 虚警率： 0.16
+
+
+## 保存模型
+
+
+```python
+saver = tf.train.Saver()
+saver.save(smoke_sess, 'my_test_model')
+```
+
+
+
+
+    'my_test_model'
+
+
+
+## 使用GPU
+
+
+```python
+def is_gpu_available(cuda_only=True):
+    from tensorflow.python.client import device_lib as _device_lib
+
+    if cuda_only:
+        return any((x.device_type == 'GPU')
+                   for x in _device_lib.list_local_devices())
+    else:
+        return any((x.device_type == 'GPU' or x.device_type == 'SYCL')
+                   for x in _device_lib.list_local_devices())
+```
+
+
+```python
+is_gpu_available()
+```
+
+
+```python
+def get_available_gpus():
+    from tensorflow.python.client import device_lib as _device_lib
+    local_device_protos = _device_lib.list_local_devices()
+    return [x.name for x in local_device_protos if x.device_type == 'GPU']
+```
+
+
+```python
+get_available_gpus()
+```
+
+
+```python
+# Creates a graph.
+with tf.device('/cpu:0'):
+    a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name='a')
+    b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name='b')
+    c = tf.matmul(a, b)
+# Creates a session with log_device_placement set to True.
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+# Runs the op.
+print(sess.run(c))
+```
