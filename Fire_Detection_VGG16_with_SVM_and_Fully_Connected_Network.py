@@ -3,21 +3,21 @@
 
 # # 导入相关库
 
-# In[11]:
+# In[ ]:
 
 
 import numpy as np
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 #%matplotlib inline
 
 
-# In[2]:
+# In[ ]:
 
 
 from sklearn import svm
 
 
-# In[3]:
+# In[ ]:
 
 
 from keras.applications.vgg16 import VGG16
@@ -27,7 +27,7 @@ from keras.applications.vgg16 import preprocess_input
 
 # # 读取VGG16预训练模型参数
 
-# In[4]:
+# In[ ]:
 
 
 model_vgg16 = VGG16(weights='imagenet', include_top=False)
@@ -35,7 +35,7 @@ model_vgg16 = VGG16(weights='imagenet', include_top=False)
 
 # # 读取训练集图片计算特征
 
-# In[8]:
+# In[ ]:
 
 
 training_set_vgg16_features = []
@@ -53,13 +53,13 @@ for i in list(range(1, 401)) + list(range(501, 901)):
     training_set_vgg16_features.append(model_vgg16.predict(x).reshape((7*7*512, )))# 计算该张图片的特征
 
 
-# In[9]:
+# In[ ]:
 
 
 training_set_vgg16_features_ndarray = np.vstack(training_set_vgg16_features)# 转换为ndarray
 
 
-# In[10]:
+# In[ ]:
 
 
 training_set_label = np.array([1.0 if i < 400 else 0.0 for i in range(800)])
@@ -67,7 +67,7 @@ training_set_label = np.array([1.0 if i < 400 else 0.0 for i in range(800)])
 
 # # 读取测试集图片计算特征
 
-# In[15]:
+# In[ ]:
 
 
 test_set_vgg16_features = []
@@ -84,7 +84,7 @@ for i in list(range(401, 501)) + list(range(901, 1001)):
     test_set_vgg16_features.append(model_vgg16.predict(x).reshape((7*7*512, )))# 计算该张图片的特征
 
 
-# In[16]:
+# In[ ]:
 
 
 test_set_vgg16_features_ndarray = np.vstack(test_set_vgg16_features)# 转换为ndarray
@@ -225,7 +225,7 @@ test_set_vgg16_with_fc_prediction_negative = test_set_vgg16_with_fc_prediction[1
 # In[ ]:
 
 
-print('VGG16+SVM，测试集\n检验率： {0}, 虚警率： {1}'.format(
+print('VGG16+全连接神经网络，测试集\n检验率： {0}, 虚警率： {1}'.format(
     len(test_set_vgg16_with_fc_prediction_positive[test_set_vgg16_with_fc_prediction_positive == 1]) / len(test_set_vgg16_with_fc_prediction_positive),
     len(test_set_vgg16_with_fc_prediction_negative[test_set_vgg16_with_fc_prediction_negative == 1]) / len(test_set_vgg16_with_fc_prediction_negative)))
 
