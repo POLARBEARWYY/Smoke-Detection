@@ -20,7 +20,7 @@ Smoke detector which based on video or image can avoid interference of environme
 - [视频数据集](http://smoke.ustc.edu.cn/datasets.htm)
 ## 文中所使用算法
 ### HOG特征、LBP特征 + SVM分类器
-- 文件名:Fire_Detection_HOG_and_LBP_with_SVM  
+- 文件名:Smoke_Detection_HOG_and_LBP_with_SVM  
 
 使用skimage库中hog特征、lbp特征提取图片边缘、纹理特征，结合sklearn中的svm分类器进行分类。判断图片中是否包含烟雾  
 计算结果如下所示：  
@@ -30,11 +30,11 @@ Smoke detector which based on video or image can avoid interference of environme
 ![](result/lbp_svm_test.png)
 
 ### 全连接神经网络 + SVM分类器
-- 文件名:Fire_Detection_with_One_Hidden_Layer  
+- 文件名:Smoke_Detection_with_One_Hidden_Layer  
 使用tensorflow搭建一个具有单隐层的神经网络，提取图片深度特征，再结合svm进一步提高准确率  
 
 ### 使用VGG16迁移学习
-- 文件名:Fire_Detection_VGG16_with_SVM_and_Fully_Connected_Network  
+- 文件名:Smoke_Detection_VGG16_with_SVM_and_Fully_Connected_Network  
 使用在ImageNet上预训练的VGG16进行迁移学习，使用VGG16的卷积层作为特征提取器，SVM作为分类器/finetune最后的全连接层，作为烟雾检测  
 计算结果如下所示：  
 ![](result/vgg16_svm_train.png)
@@ -62,7 +62,7 @@ Smoke detector which based on video or image can avoid interference of environme
 ![](result/feature_fusion_train.png)
 ![](result/feature_fusion_test.png)
 ### 将烟雾检测模型用于树莓派  
-- 文件名:Fire_Detection_MobileNet  
+- 文件名:Smoke_Detection_MobileNet  
 - 文件名:raspberry_pi  
 使用MobileNet模型，在电脑上进行FineTune并保存模型，在树莓派上直接读取训练好的模型参数  
 计算结果如下所示：  
@@ -78,3 +78,20 @@ Smoke detector which based on video or image can avoid interference of environme
 
 ## 使用方法  
 安装所需库，将数据集文件夹和py代码放如同一目录下python xxx.py即可运行
+```
++-- smoke_detection
+|   +-- smoke_dataset
+|       +--set1_48_data.npy
+|       +--set1_48_label.npy
+|       +--set2_48_data.npy
+|       +--set2_48_label.npy
+|       +--set3_48_data.npy
+|       +--set3_48_label.npy
+|       +--set4_48_data.npy
+|       +--set4_48_label.npy
+|   +-- test8
+|       +--000001.png
+|       +--000002.png
+|       +--...
+|   +-- Smoke_Detection_xxx.py
+```
