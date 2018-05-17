@@ -23,7 +23,7 @@ Smoke detector which based on video or image can avoid interference of environme
 - 文件名:Fire_Detection_HOG_and_LBP_with_SVM  
 
 使用skimage库中hog特征、lbp特征提取图片边缘、纹理特征，结合sklearn中的svm分类器进行分类。判断图片中是否包含烟雾  
-计算结果如下所示：
+计算结果如下所示：  
 ![](result/hog_svm_train.png)
 ![](result/hog_svm_test.png)
 ![](result/lbp_svm_train.png)
@@ -36,7 +36,7 @@ Smoke detector which based on video or image can avoid interference of environme
 ### 使用VGG16迁移学习
 - 文件名:Fire_Detection_VGG16_with_SVM_and_Fully_Connected_Network  
 使用在ImageNet上预训练的VGG16进行迁移学习，使用VGG16的卷积层作为特征提取器，SVM作为分类器/finetune最后的全连接层，作为烟雾检测  
-计算结果如下所示：
+计算结果如下所示：  
 ![](result/vgg16_svm_train.png)
 ![](result/vgg16_svm_test.png)
 ![](result/vgg16_fc_train.png)
@@ -45,7 +45,7 @@ Smoke detector which based on video or image can avoid interference of environme
 ### 特征融合模型
 - 文件名:smoke_detection_with_feature_fusion  
 结合HOG特征、LBP特征和VGG16所`提取的深度特征进行烟雾检测  
-网络结构图如下图所示
+网络结构图如下图所示  
 ![](model.png)
 其中input1为hog特征，input2为lbp直方图特征、input3为VGG16深度特征，将三个特征均压缩为128维后进行拼接，然后再输入到一个全连接神经网络中进行分类。  
 计算结果如下图所示：  
@@ -65,12 +65,12 @@ Smoke detector which based on video or image can avoid interference of environme
 - 文件名:Fire_Detection_MobileNet  
 - 文件名:raspberry_pi  
 使用MobileNet模型，在电脑上进行FineTune并保存模型，在树莓派上直接读取训练好的模型参数  
-计算结果如下所示：
+计算结果如下所示：  
 ![](result/mobilenet_fc_test.png)
 
 ## 其他程序
 ### HOG/LBP特征可视化  
-- 文件名:show_hog_lbp_feature_map  
+- 文件名:show_hog_lbp_feature_map    
 ![](result/hog_lbp.png)
 ### 爬虫
 - 文件名:spider  
