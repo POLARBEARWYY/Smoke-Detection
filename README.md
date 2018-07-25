@@ -17,7 +17,8 @@ Smoke detector which based on video or image can avoid interference of environme
 - [包含1000张图片的图片数据集(test8)](http://smoke.ustc.edu.cn/datasets.htm)
 - [袁飞牛组所收集数据集(smoke_data)](http://staff.ustc.edu.cn/~yfn/DNCNN_code.zip)
 - [袁飞牛教授个人主页](http://staff.ustc.edu.cn/~yfn/index.html)
-- [视频数据集](http://smoke.ustc.edu.cn/datasets.htm)
+- [视频数据集](http://smoke.ustc.edu.cn/datasets.htm)  
+
 由于中科大火灾实验室网站不稳定，因此将使用数据传到[百度云](https://pan.baidu.com/s/1n27R9bEIjvZH14bIGQhvTg)。
 ## 文中所使用算法
 ### HOG特征、LBP特征 + SVM分类器
