@@ -19,7 +19,7 @@ Smoke detector which based on video or image can avoid interference of environme
 - [袁飞牛教授个人主页](http://staff.ustc.edu.cn/~yfn/index.html)
 - [视频数据集](http://smoke.ustc.edu.cn/datasets.htm)  
 
-由于中科大火灾实验室网站不稳定，因此将使用数据传到[百度云]()。
+由于中科大火灾实验室网站不稳定，因此将使用数据传到[test8 Google Drive](https://drive.google.com/file/d/1unBpfYyD1JGXAMz0A1Z5lQZNE9O6zj6R/view?usp=sharing)。
 ## 文中所使用算法
 ### HOG特征、LBP特征 + SVM分类器
 - 文件名:Smoke_Detection_HOG_and_LBP_with_SVM  
