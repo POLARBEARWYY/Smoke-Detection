@@ -14,8 +14,8 @@ Smoke detector which based on video or image can avoid interference of environme
 ***
 ## 烟雾数据集
 本文中所使用数据集大部分为中科大火灾实验室所收集
-- [包含1000张图片的图片数据集(test8)](http://smoke.ustc.edu.cn/datasets.htm)
-- [袁飞牛组所收集数据集(smoke_data)](http://staff.ustc.edu.cn/~yfn/DNCNN_code.zip)
+- [包含1000张图片的图片数据集(test8, xxx.png)](http://smoke.ustc.edu.cn/datasets.htm)
+- [袁飞牛组所收集数据集(smoke_data, xxx.npy)](https://pan.baidu.com/s/1miva2HM)
 - [袁飞牛教授个人主页](http://staff.ustc.edu.cn/~yfn/index.html)
 - [视频数据集](http://smoke.ustc.edu.cn/datasets.htm)  
 
